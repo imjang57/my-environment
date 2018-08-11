@@ -1,0 +1,34 @@
+{
+  "configurations": [
+    {
+      "name": "Python: Current File (Integrated Terminal)",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "args" : [],
+      "env": {
+        "ENV": "dev",
+        "AIRFLOW_ENV": "local",
+        "PYTHONPATH": "${workspaceFolder}/libs:${workspaceFolder}",
+        "JAVA_HOME": "/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home/",
+        "CLASSPATH": "${workspaceFolder}/jars/*"
+      },
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Debug my_module",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/my_module/main.py",
+      "args" : [],
+      "env": {
+        "ENV": "dev",
+        "AIRFLOW_ENV": "local",
+        "PYTHONPATH": "${workspaceFolder}/libs:${workspaceFolder}",
+        "JAVA_HOME": "/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home/",
+        "CLASSPATH": "${workspaceFolder}/jars/*"
+      },
+      "console": "integratedTerminal"
+    }
+  ]
+}
