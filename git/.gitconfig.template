@@ -1,0 +1,10 @@
+[core]
+    excludesfile = ~/.gitignore
+
+[include]
+    path = ~/my-environment/git/my-gitconfig
+
+[includeIf "gitdir:~/my-environment/"]
+    path = ~/.gitconfig-myprofile
+[includeIf "gitdir:~/project/"]
+    path = ~/.gitconfig-workprofile
