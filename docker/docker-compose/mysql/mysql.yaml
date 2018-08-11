@@ -1,0 +1,25 @@
+# docker-compose -f mysql.yaml up -d
+services:
+  mysql_db:
+    container_name: mysql
+    image: mysql:8.0
+    networks:
+      - mysql
+    ports:
+      - "${MYSQL_DB_PORT:-3306}:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: passwd
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: testuser
+      MYSQL_PASSWORD: passwd
+    volumes:
+      - "${MYSQL_DATA_DIR:-${HOME}/data/mysql_db}:/var/lib/mysql"
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+
+networks:
+  mysql:
+    name: mysql
+    driver: bridge

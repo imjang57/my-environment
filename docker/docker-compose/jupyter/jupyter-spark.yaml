@@ -1,0 +1,12 @@
+# docker-compose -f jupyter-spark.yaml up -d
+services:
+  jupyter-minimal:
+    container_name: jupyter-spark
+    image: jupyter/all-spark-notebook:spark-3.5.0
+    ports:
+      - "${JUPYTER_SPARK_PORT:-1901}:8888"
+      - "${JUPYTER_SPARK_UI_PORT:-4040}:4040"
+    volumes:
+      - "${JUPYTER_SPARK_DATA_DIR:-${HOME}/data/jupyter-spark}:/home/jovyan/work"
+      - "${HOME}/.aws:/home/jovyan/.aws"
+    restart: unless-stopped

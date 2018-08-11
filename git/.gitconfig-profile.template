@@ -1,0 +1,6 @@
+[user]
+    name = imjang57
+    email = imjang57@gmail.com
+    signingkey = <GPG Signing Key>
+[commit]
+    gpgsign = true

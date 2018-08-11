@@ -1,0 +1,9 @@
+# docker-compose -f drawio.yaml up -d
+services:
+  drawio:
+    container_name: drawio
+    image: jgraph/drawio
+    ports:
+      - "${DRAWIO_PORT:-1903}:8080"
+    volumes: []
+    restart: unless-stopped

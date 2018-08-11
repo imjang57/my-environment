@@ -1,0 +1,11 @@
+# docker-compose -f redis.yaml up -d
+services:
+  redis:
+    container_name: redis
+    image: redis:7.4
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    restart: always
+    environment: []
+    volumes: []
+    command: []

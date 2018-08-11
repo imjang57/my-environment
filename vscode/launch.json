@@ -1,0 +1,30 @@
+{
+  "configurations": [
+    {
+      "name": "Python: Current File (Integrated Terminal)",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "args" : [],
+      "env": {
+        "ENV": "dev",
+        "RUNTIME_ENV": "local",
+        "PYTHONPATH": "${workspaceFolder}/dags:${workspaceFolder}"
+      },
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Debug data_ingestion",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/dags/data_ingestion/entrypoint.py",
+      "args" : [],
+      "env": {
+        "ENV": "dev",
+        "RUNTIME_ENV": "local",
+        "PYTHONPATH": "${workspaceFolder}/dags:${workspaceFolder}"
+      },
+      "console": "integratedTerminal"
+    }
+  ]
+}
