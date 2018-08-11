@@ -1,0 +1,174 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""basic vim configurations
+""""""""""Refer `:help quickref` (quickref.txt)
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+syntax on
+"set nu                   "line numbers
+set tabstop=4            "tab stop
+set softtabstop=4        "soft tabstop
+set expandtab            "soft tab: fill tab with blank characters(space)
+set shiftwidth=4         "tab stop for '>' command
+set autoindent           "Auto indentation
+set cindent              "The C programming language indentation
+set smartindent          "smart autoindenting for C programs
+set foldmethod=indent    "set fold method to 'indent' for folding
+set history=100          "remember work history
+set hlsearch             "highlighting search word
+"set incsearch            "do incremental searching
+"set ignorecase           "the case of normal letters is ignored
+set showmatch            "highlighting matched parentheses : (),{}
+set ruler                "show current cursor's location at lower right side
+set showmode             "To be able to see what mode you are in.
+set laststatus=2         "always show status bar
+set nobackup             "don't create backup file
+set relativenumber
+"set backup               "create backup file
+"set backupdir=~/vim/backup "set directory where backup file is saved
+set nocompatible         "be improved, required (vi compatibility off)
+"colorscheme monokai
+colorscheme desert
+"colorscheme evening
+set belloff=all           "off alerts (beep sound and flashing terminal both)
+
+"set cursorline
+"highlight CursorLine ctermbg=LightGrey
+"hi CursorLine cterm=NONE ctermbg=darkblue ctermfg=white guibg=darkblue ctermfg=white
+set nowrapscan "don't back to start of file when search
+
+""""""""""file encoding configurations
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"auto detected file encoding list which is used when vim opens file
+set fileencodings=utf-8,euc-kr,cp949,cp932,euc-jp,shift-jis,big5,latin1,ucs-2le
+"Use command :set fileencoding=utf-8 when you change current file's encoding
+"The 'encoding' option is for encoding of vim buffer, register, vimscript, and
+"any other vim internal resources.
+set encoding=utf-8
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""key mappings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let mapleader=","
+let g:mapleader=","
+
+" open windows splitting tab layout
+noremap <leader>v :vsplit<CR>
+noremap <leader>V :split<CR>
+" move windows
+noremap <TAB><TAB> :exe "wincmd w"<CR>
+noremap <C-h> :exe "wincmd h"<CR>
+noremap <C-j> :exe "wincmd j"<CR>
+noremap <C-k> :exe "wincmd k"<CR>
+noremap <C-l> :exe "wincmd l"<CR>
+" switch tab and buffer
+noremap <C-n> :tabprevious<CR>
+noremap <C-m> :tabnext<CR>
+" show buffer list and prepare ':b' to switch buffer
+nnoremap <leader>' :ls<CR>:b<Space>
+" map tabedit (open new tab) command
+noremap <leader>t :tabedit<CR>
+" navigate between tabs
+noremap <leader>1 1gt
+noremap <leader>2 2gt
+noremap <leader>3 3gt
+noremap <leader>4 4gt
+noremap <leader>5 5gt
+noremap <leader>6 6gt
+noremap <leader>7 7gt
+noremap <leader>8 8gt
+noremap <leader>9 9gt
+noremap <leader>0 :tablast<CR>
+" move tab
+noremap <leader>q :tabmove -1<CR>
+noremap <leader>w :tabmove +1<CR>
+" resize windows
+nnoremap <silent> <leader>= :exe "wincmd " . "="<CR>
+nnoremap <silent> <Leader>} :exe "resize " . (winheight(0) * 3/2)<CR>
+nnoremap <silent> <Leader>{ :exe "resize " . (winheight(0) * 2/3)<CR>
+nnoremap <silent> <Leader>] :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
+nnoremap <silent> <Leader>[ :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
+" map keys to toggle folding
+"""""" toggle current fold
+nnoremap <space> za
+""""" toggle current fold recursively
+nnoremap <leader><space> zA
+" remap cut
+nnoremap x "_x
+nnoremap d "_d
+vnoremap d "_d
+nnoremap <leader>d ""d
+vnoremap <leader>d ""d
+
+" Fuzzy Finding using CtrlP
+map <leader>f<CR> :CtrlPBuffer<CR>
+map <leader>ff<CR> :CtrlP<CR>
+map <leader>fff<CR> :CtrlP .<CR>
+
+" Change mode to command mode adding current file name at prompt
+nnoremap <leader>r :!"%:p"
+" Change mode to command mode adding yanked text prompt
+nnoremap <leader>R :!<C-r>"
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""macro for file header (shebang and etc)
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Python Script Head
+nmap <leader>py ggI#!/usr/bin/env python<cr>#-*- coding: utf_8 -*-<cr><Esc>:set ft=python<cr>
+" Bash Shell Script Head
+nmap <leader>sh ggI#!/bin/bash<cr><Esc>:set ft=sh<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""plugins settings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Specify a directory for plugins
+" - For Neovim: ~/.local/share/nvim/plugged
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
+
+" Make sure you use single quotes
+
+" On-demand loading
+"Plug 'pathogen.vim'
+Plug 'scrooloose/nerdcommenter'
+Plug 'vim-airline/vim-airline'
+Plug 'kien/ctrlp.vim'
+Plug 'majutsushi/tagbar'
+Plug 'vim-syntastic/syntastic'
+
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'derekwyatt/vim-scala'
+
+" Initialize plugin system
+call plug#end()
+
+" Tagbar settings
+nmap <F9> :TagbarToggle<CR>
+
+" Syntastic settings
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_python_checkers=['pylint', 'pep8']
+let g:syntastic_cpp_compiler = 'g++'
+let g:syntastic_cpp_compiler_options = "-std=c++17 -Wall -Wextra -Wpedantic"
+
+" NERDCommenter settings
+"let g:NERDSpaceDelims = 1 " Add spaces after comment delimiters by default
+
+" ctrlp.vim settings
+" check details at :help ctrlp-commands and :help ctrlp-extensions
+let g:ctrlp_map = '<c-p>' "invok CtrlP by mapped key
+let g:ctrlp_cmd = 'CtrlP' "invok CtrlP by command
+let g:ctrlp_max_height = 30
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_custom_ignore = {
+    \ 'dir': '\.git$\|vendor$',
+    \ 'file': '\v\.(exe|so|dll|png|jpg|jpeg|class)$'
+    \ }
+
+" YAML file specific settings
+autocmd FileType yaml setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType html setlocal shiftwidth=2 softtabstop=2 expandtab
