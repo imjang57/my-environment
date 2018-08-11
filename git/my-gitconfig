@@ -1,0 +1,49 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Add below lines to ~/.gitconfig to include this git config file.
+;
+;[include]
+;    path = /path/to/my-environment/git/my-gitconfig
+;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Add below lines for your environments and profiles
+;
+;[user]
+;    name = imjang57
+;    email = imjang57@gmail.com
+;    signingkey = 1A2B3C4D
+;[commit]
+;    gpgsign = true
+;
+; Belows are to checkout new branch from Github Pull Request
+;[remote "origin"]
+;    fetch = +refs/heads/*:refs/remotes/origin/*
+;    url = git@github.com:imjang57/my-environment.git
+;    fetch = +refs/pull/*/head:refs/remotes/origin/pr/*
+;
+[init]
+    defaultBranch = main
+
+[alias]
+    a = add -p
+    cm = commit
+    co = checkout
+    fco = "!git checkout $(git branch | fzf)"
+    st = status
+    s = status -s
+    df = diff
+    dft = difftool
+    br = branch
+    mg = merge
+    rb = rebase
+    rbi = rebase -i
+    pu = pull
+    ps = push
+    f = fetch
+    lg = log --graph --abbrev-commit --decorate --format=format:'%C(cyan)%h%C(reset) - %C(green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(yellow)%d%C(reset)' --all
+    l1 = log -1
+    l2 = log -2
+    l3 = log -3
+    cleanbranch = "!git branch -d $(git branch --merged | grep -v '^\\*\\|\\<master$')"
+    wt = worktree
+[credential]
+    helper = store

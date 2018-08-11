@@ -1,0 +1,9 @@
+# docker-compose -f mermaid.yaml up -d
+services:
+  mermaid:
+    container_name: mermaid
+    image: ghcr.io/mermaid-js/mermaid-live-editor
+    ports:
+      - "${MERMAID_PORT:-1902}:8080"
+    volumes: []
+    restart: unless-stopped

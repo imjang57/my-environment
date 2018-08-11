@@ -1,0 +1,14 @@
+[core]
+    excludesfile = ~/.gitignore
+[diff]
+    tool = vim
+[difftool "nvim"]
+    cmd = vim -d $LOCAL $REMOTE
+
+[include]
+    path = ~/my-environment/git/my-gitconfig
+
+[includeIf "gitdir:~/my-environment/"]
+    path = ~/.gitconfig-myprofile
+[includeIf "gitdir:~/project/"]
+    path = ~/.gitconfig-workprofile
