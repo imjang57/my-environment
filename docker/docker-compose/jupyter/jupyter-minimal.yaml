@@ -1,0 +1,10 @@
+# docker-compose -f jupyter-minimal.yaml up -d
+services:
+  jupyter-minimal:
+    container_name: jupyter-minimal
+    image: jupyter/minimal-notebook:python-3.11
+    ports:
+      - "${JUPYTER_MINIMAL_PORT:-1901}:8888"
+    volumes:
+      - "${JUPYTER_MINIMAL_DATA_DIR:-${HOME}/data/jupyter-minimal}:/home/jovyan/work"
+    restart: unless-stopped

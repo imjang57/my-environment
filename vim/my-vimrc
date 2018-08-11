@@ -1,0 +1,228 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" basic vim configurations
+"" Refer `:help quickref` (quickref.txt)
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set nocompatible         "be improved, required (vi compatibility off)
+syntax enable
+filetype plugin on
+filetype indent on       "load filetype-specific indent files
+set cursorline           "highlight current line
+set tabstop=4            "number of visual spaces per TAB
+set softtabstop=4        "number of spaces in tab when editing
+set expandtab            "soft tab: fill tab with blank characters(spaces)
+set shiftwidth=4         "tab stop for '>' command
+set autoindent           "Auto indentation
+set cindent              "The C programming language indentation
+set smartindent          "smart autoindenting for C programs
+set foldenable           "enable folding
+set foldmethod=indent    "set fold method to 'indent' for folding
+set history=100          "remember work history
+set nowrapscan           "don't back to start of file when search
+"set incsearch            "do incremental searching
+"set ignorecase           "the case of normal letters is ignored
+set hlsearch             "highlighting search word
+set nobackup             "don't create backup file
+set nowritebackup
+"set backup               "create backup file
+"set writebackup
+"set backupdir=~/vim/backup "set directory where backup file is saved
+set belloff=all           "off alerts (beep sound and flashing terminal both)
+"" Give more space for displaying messages.
+set cmdheight=2
+"" The length of time Vim waits after you stop typing before it triggers the plugin
+"" is governed by the setting updatetime.
+"" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+"" delays and poor user experience.
+set updatetime=300
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+if has("nvim-0.5.0") || has("patch-8.1.1564")
+  " Recently vim can merge signcolumn and number column into one
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
+
+set nu                   "set number: line numbers
+"set rnu                  "set relativenumber: relative line numbers
+set wildmenu             " visual autocomplete for command menu
+set showmatch            "highlighting matched parentheses : (),{}
+set ruler                "show current cursor's location at lower right side
+set showmode             "To be able to see what mode you are in.
+set laststatus=2         "always show status bar
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" file encoding configurations
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""auto detected file encoding list which is used when vim opens file
+set fileencodings=utf-8,euc-kr,cp949,cp932,euc-jp,shift-jis,big5,latin1,ucs-2le
+""Use command :set fileencoding=utf-8 when you change current file's encoding
+""The 'encoding' option is for encoding of vim buffer, register, vimscript, and
+""any other vim internal resources.
+set encoding=utf-8
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" key mappings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let mapleader=","
+let g:mapleader=","
+let maplocalleader="\\"
+
+"" Unmap some vim default keymaps
+map <S-k> <Nop>
+map <C-w>q <Nop>
+map <C-c> <Nop>
+
+"" Configure netrw built-in plugin
+"nnoremap <C-\><C-]> :Lexplore %:p:h<CR>
+"nnoremap <C-\><C-[> :Lexplore<CR>
+"let g:netrw_winsize = 20
+"let g:netrw_liststyle = 3 " tree view
+"let g:netrw_browse_split = 4 " open file in previous window
+
+"" Change into Normal Mode rolling fingers
+"" Recommended in http://learnvimscriptthehardway.stevelosh.com/chapters/10.html
+inoremap jkl <ESC>
+
+"" Set delete command not to keep content in meomry (using blackhole register)
+nnoremap d "_d
+vnoremap d "_d
+""" Cut selected characters to system clipboard
+nnoremap <leader>d "+d
+vnoremap <leader>d "+d
+""" Yank selected characters to system clipboard
+nnoremap <C-c> "+y
+vnoremap <C-c> "+y
+
+"" Manipulate buffer
+"""" Open new empty buffer
+nnoremap <leader>n :enew<CR>
+"""" Open new buffer with specific file
+nnoremap <leader>o :e<Space>
+"""" Open buffer list and prepare ':b' to switch buffer
+nnoremap <leader>, :ls<CR>:b<Space>
+"""" Open netrw
+nnoremap <leader>. :Explore .<CR>
+"""" Close current buffer
+nnoremap <leader>q :bd<CR>
+"""" Close all buffers and reopen file in current buffer
+nnoremap <leader><C-q> :%bd \| e#<CR>
+"""" Open lastly opened buffer
+nnoremap <leader>m :b!#<CR>
+
+"" Navigation
+"""" Traverse windows
+noremap <C-j> :exe "wincmd w"<CR>
+noremap <C-k> :exe "wincmd W"<CR>
+"""" Traverse tabs
+noremap <C-h> :tabprevious<CR>
+noremap <C-l> :tabnext<CR>
+"""" Traverse buffers
+noremap <TAB>j :bn!<CR>
+noremap <TAB>k :bp!<CR>
+
+"" Bookmark
+noremap <C-a> :marks<CR>
+noremap <C-s> :<CR>
+
+"" Layout
+"""" Split current window and open current buffer to new pane
+noremap <leader>/ :vsplit<CR>
+noremap <leader>? :split<CR>
+"""" Resize windows
+nnoremap <silent> <leader>= :exe "wincmd " . "="<CR>
+nnoremap <silent> <Leader>] :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
+nnoremap <silent> <Leader>[ :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
+nnoremap <silent> <Leader>} :exe "resize " . (winheight(0) * 3/2)<CR>
+nnoremap <silent> <Leader>{ :exe "resize " . (winheight(0) * 2/3)<CR>
+"""" Close current window
+noremap <leader>w :close<CR>
+"""" Open new tab
+noremap <TAB><TAB> :tabedit<CR>
+"""" Open new tab and move current window to new tab
+noremap <TAB>t <C-w>T
+"""" Change tab position
+noremap <TAB><Left> :tabmove -1<CR>
+noremap <TAB><Right> :tabmove +1<CR>
+
+"" Run shell command which is yanked and stored in default register("), and then output result to current buffer.
+nnoremap <leader>r :r !<C-r>"
+"" Get into command mode adding current file's absolute path with preceding ! command to execute file in the shell.
+nnoremap <leader>R :!bash %:p
+
+"" Map function keys to recording command
+nnoremap <leader><F10> qq
+nnoremap <F10> q
+nnoremap <F9> @q
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" Macro for file header (shebang and etc)
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" python Script Head
+nmap <leader>py ggI#!/usr/bin/env python<cr>#-*- coding: utf_8 -*-<cr><Esc>:set ft=python<cr>
+"" Bash Shell Script Head
+nmap <leader>sh ggI#!/bin/bash<cr><Esc>:set ft=sh<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" File type specific settings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+autocmd FileType python setlocal shiftwidth=4 softtabstop=4 expandtab commentstring=#\ %s
+autocmd FileType python nnoremap <localleader>main Godef main():<CR>pass<ESC>o<ESC><<yyppif __name__ == '__main__':<CR>main()<ESC>
+autocmd FileType yaml set shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+autocmd FileType html setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+augroup hql_filetype
+  au!
+  autocmd BufNewFile,BufRead *.hql set syntax=sql
+augroup END
+augroup terraform_filetype
+  au!
+  autocmd WinEnter,BufEnter,BufNewFile,BufRead *.tf set filetype=tf shiftwidth=2 expandtab
+augroup END
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" Plugins
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" Specify a directory for plugins
+call plug#begin('~/.vim/plugged')
+
+Plug 'tpope/vim-vinegar'
+Plug 'kien/ctrlp.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+Plug 'preservim/nerdcommenter'
+Plug 'preservim/tagbar'
+Plug 'preservim/vim-indent-guides'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'airblade/vim-gitgutter'
+Plug 'machakann/vim-highlightedyank'
+
+Plug 'nvie/vim-flake8'
+Plug 'derekwyatt/vim-scala'
+
+call plug#end()
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" Load vim runtime configuration files
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+runtime! vimrc.d/*.vim
+
+function! ToggleNumber()
+    if(&relativenumber == 1)
+        set norelativenumber
+        set number
+    else
+        set relativenumber
+    endif
+endfunc
+
+function! <SID>StripTrailingWhitespaces()
+    " save last search & cursor position
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    let @/=_s
+    call cursor(l, c)
+endfunction
