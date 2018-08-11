@@ -1,0 +1,7 @@
+[include]
+    path = /path/to/my-environment/git/my-gitconfig
+
+[includeIf "gitdir:~/my-environment/"]
+    path = ~/.gitconfig-myprofile
+[includeIf "gitdir:~/project/"]
+    path = ~/.gitconfig-workprofile

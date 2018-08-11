@@ -1,0 +1,169 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" basic vim configurations
+" Refer `:help quickref` (quickref.txt)
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set nocompatible         "be improved, required (vi compatibility off)
+syntax on
+filetype plugin on
+"set nu                   "set number: line numbers
+set rnu                  "set relativenumber: relative line numbers
+set tabstop=4            "tab stop
+set softtabstop=4        "soft tabstop
+set expandtab            "soft tab: fill tab with blank characters(space)
+set shiftwidth=4         "tab stop for '>' command
+set autoindent           "Auto indentation
+set cindent              "The C programming language indentation
+set smartindent          "smart autoindenting for C programs
+set foldmethod=indent    "set fold method to 'indent' for folding
+set history=100          "remember work history
+set hlsearch             "highlighting search word
+set nowrapscan           "don't back to start of file when search
+"set incsearch            "do incremental searching
+"set ignorecase           "the case of normal letters is ignored
+set showmatch            "highlighting matched parentheses : (),{}
+set ruler                "show current cursor's location at lower right side
+set showmode             "To be able to see what mode you are in.
+set laststatus=2         "always show status bar
+set nobackup             "don't create backup file
+"set backup               "create backup file
+"set backupdir=~/vim/backup "set directory where backup file is saved
+set belloff=all           "off alerts (beep sound and flashing terminal both)
+colorscheme desert
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" file encoding configurations
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"auto detected file encoding list which is used when vim opens file
+set fileencodings=utf-8,euc-kr,cp949,cp932,euc-jp,shift-jis,big5,latin1,ucs-2le
+"Use command :set fileencoding=utf-8 when you change current file's encoding
+"The 'encoding' option is for encoding of vim buffer, register, vimscript, and
+"any other vim internal resources.
+set encoding=utf-8
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" key mappings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let mapleader=","
+let g:mapleader=","
+let maplocalleader="\\"
+
+" Unmap some vime default keymaps
+map <S-k> <Nop>
+map <C-w>q <Nop>
+
+" Change into Normal Mode rolling fingers
+" Recommended in http://learnvimscriptthehardway.stevelosh.com/chapters/10.html
+inoremap jkl <ESC>
+
+" Set delete command not to keep content in meomry (using blackhole register)
+nnoremap d "_d
+vnoremap d "_d
+nnoremap <leader>d "+d
+vnoremap <leader>d "+d
+
+"" manipulate buffer
+"""" open new empty buffer
+nnoremap <leader>n :enew<CR>
+"""" open new buffer with specific file
+nnoremap <leader>o :e<Space>
+"""" open buffer list and prepare ':b' to switch buffer
+nnoremap <leader>, :ls<CR>:b<Space>
+"""" open netrw
+nnoremap <leader>. :e .<CR>
+"""" close current buffer
+nnoremap <leader>q :bd<CR>
+"""" close all buffers and reopen file in current buffer
+nnoremap <leader><C-q> :%bd \| e#<CR>
+"""" open lastly opened buffer
+nnoremap <leader>m :b!#<CR>
+
+"" navigation
+"""" traverse buffers, windows and tabs
+noremap <C-h> :tabprevious<CR>
+noremap <C-l> :tabnext<CR>
+noremap <C-j> :bn!<CR>
+noremap <C-k> :bp!<CR>
+"noremap <C-w>h :exe "wincmd h"<CR>
+"noremap <C-w>l :exe "wincmd l"<CR>
+"noremap <C-w>j :exe "wincmd j"<CR>
+"noremap <C-w>k :exe "wincmd k"<CR>
+"noremap <C-w>w :exe "wincmd w"<CR>
+
+"" layout
+"""" split current window and open new empty buffer
+noremap <leader>/ :vsplit<CR>:enew<CR>
+noremap <leader>? :split<CR>:enew<CR>
+"""" resize windows
+nnoremap <silent> <leader>= :exe "wincmd " . "="<CR>
+nnoremap <silent> <Leader>] :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
+nnoremap <silent> <Leader>[ :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
+nnoremap <silent> <Leader>} :exe "resize " . (winheight(0) * 3/2)<CR>
+nnoremap <silent> <Leader>{ :exe "resize " . (winheight(0) * 2/3)<CR>
+"""" close current window
+noremap <leader>w :close<CR>
+"""" open new tab
+noremap <TAB><TAB> :tabedit<CR>
+"""" change tab position
+noremap <TAB><Left> :tabmove -1<CR>
+noremap <TAB><Right> :tabmove +1<CR>
+
+"" map keys to toggle folding
+"""" toggle current fold
+nnoremap <space> za
+"""" toggle current fold recursively
+nnoremap <leader><space> zA
+
+"" get into command mode adding yanked text stored in default register(")
+nnoremap <leader>r :<C-r>"
+"" get into command mode adding current file's absolute path with preceding ! command to execute file in the shell
+nnoremap <leader>R :!bash %:p
+
+"" map function keys to recording command
+nnoremap <leader><F10> qq
+nnoremap <F10> q
+nnoremap <F9> @q
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" macro for file header (shebang and etc)
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" Python Script Head
+nmap <leader>py ggI#!/usr/bin/env python<cr>#-*- coding: utf_8 -*-<cr><Esc>:set ft=python<cr>
+"" Bash Shell Script Head
+nmap <leader>sh ggI#!/bin/bash<cr><Esc>:set ft=sh<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" file type specific settings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+autocmd FileType python setlocal shiftwidth=4 softtabstop=4 expandtab
+autocmd FileType python nnoremap <localleader>main Godef main():<CR>pass<ESC>o<ESC><<yyppif __name__ == '__main__':<CR>main()<ESC>
+autocmd FileType yaml set shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+autocmd FileType html setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+augroup hql_filetype
+  au!
+  autocmd BufNewFile,BufRead *.hql set syntax=sql
+augroup END
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" plugins
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" Specify a directory for plugins
+call plug#begin('~/.vim/plugged')
+
+Plug 'kien/ctrlp.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'vimwiki/vimwiki'
+
+Plug 'scrooloose/nerdcommenter'
+Plug 'majutsushi/tagbar'
+Plug 'vim-syntastic/syntastic'
+
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'derekwyatt/vim-scala'
+
+call plug#end()
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" load vim runtime configuration files
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+runtime! vimrc.d/*.vim
